@@ -1,0 +1,365 @@
+#include <bits/stdc++.h> 
+using namespace std; 
+ 
+const int height = 11, width = 16; 
+string field[height][width]; 
+ 
+int xHero = 1, yHero = 1; 
+int xVillain = width-3, yVillain = height-3; 
+int xShop = 10, yShop = 1;
+int xStartNpc = 5, yStartNpc = 1;
+int xHospital = 8, yHospital = 9;
+int xQuestGiver = 4, yQuestGiver = 4;
+int xTree = 7, yTree = 9;
+int xTree1 = 5, yTree1 = 9;
+int xTree2 = 2, yTree2 = 9;
+int xTree3 = 1, yTree3 = 9;
+int xClown = 2, yClown = 7;
+int xTree5 = 3, yTree5 = 8;
+int xTree6 = 5, yTree6 = 8;
+int xTree7 = 7, yTree7 = 8;
+int xTree8 = 1, yTree8 = 8;
+int xTree0 = 9, yTree0 = 8;
+int xTree10 = 3, yTree10 = 7;
+int xTree11 = 6, yTree11 = 7;
+int xTree12 = 8, yTree12 = 7;
+int xTree13 = 10, yTree13 = 7;
+int xTree14 = 1, yTree14 = 6;
+int xTree15 = 2, yTree15 = 6;
+int xTree16 = 4, yTree16 = 6;
+int xTree17 = 7, yTree17 = 6;
+int xTree18 = 9, yTree18 = 6;
+int xTree19 = 3, yTree19 = 5;
+int xTree20 = 5, yTree20 = 5;
+int xTree21 = 6, yTree21 = 5;
+int xTree22 = 8, yTree22 = 5;
+int xClown1 = 4, yClown1 = 9;
+int xClown2 = 6, yClown2 = 6;
+int xClown3 = 9, yClown3 = 7;
+ 
+char direction; 
+void clearField(){ 
+    for(int i = 0; i < height; i++){ 
+        for(int j = 0; j < width; j++){ 
+            if(j==0){
+                field[i][j] = "{";
+            }
+            else if(j==15){
+                field[i][j] = "}";
+            }
+            else if(i==0 || i==10){
+                field[i][j] = "=";
+            }
+            else {
+                field[i][j] = ".";
+            }
+        } 
+    } 
+} 
+void drawField(){ 
+    for(int i = 0; i < height; i++){ 
+        for(int j = 0; j < width; j++){ 
+            cout<<field[i][j]<<"  "; 
+        } 
+        cout<<endl; 
+    } 
+} 
+ 
+void saveCharacters(){ 
+    field[yHero][xHero] = "🤖"; 
+    field[yVillain][xVillain] = "👺"; 
+    field[yShop][xShop] = "🏪";
+    field[yStartNpc][xStartNpc] = "👾";
+    field[yHospital][xHospital] = "🏨";
+    field[yQuestGiver][xQuestGiver] = "👽";
+    field[yTree][xTree] = "🌳";
+    field[yTree0][xTree0] = "🌲";
+    field[yTree1][xTree1] = "🌲";
+    field[yTree2][xTree2] = "🌳";
+    field[yTree3][xTree3] = "🌳";
+    field[yTree5][xTree5] = "🌳";
+    field[yTree6][xTree6] = "🌲";
+    field[yTree7][xTree7] = "🌲";
+    field[yTree8][xTree8] = "🌳";
+    field[yTree10][xTree10] = "🌲";
+    field[yTree11][xTree11] = "🌳";
+    field[yTree12][xTree12] = "🌳";
+    field[yTree13][xTree13] = "🌳";
+    field[yTree14][xTree14] = "🌲";
+    field[yTree15][xTree15] = "🌲";
+    field[yTree16][xTree16] = "🌳";
+    field[yTree17][xTree17] = "🌳";
+    field[yTree18][xTree18] = "🌲";
+    field[yTree19][xTree19] = "🌳";
+    field[yTree20][xTree20] = "🌲";
+    field[yTree21][xTree21] = "🌲";
+    field[yTree22][xTree22] = "🌳";
+} 
+int main(){ 
+    int HeroDmg=1;
+    int VillainDmg=3;
+    int Ves = 15;
+    int Des = 10;
+    int phrase = 0;
+    int ShopPhrase = 0;
+    int HeroMoney = 1;
+    int tempNotEnoughMoney = 0;
+    int StartNpcWords = 0;
+    int tempHospital = 0;
+    int QuestGiverWords = 0;
+    int RosthelmQuest1 = 0;
+    int RosthelmQuest2 = 0;
+    int RosthelmQuestPhrase = 0;
+    int HowMuchClowns = 0;
+    int HowMuchMasks = 0;
+    int ClownHP = 6;
+    int ClownDmg = 1;
+    int Clown1HP = 6;
+    int Clown1Dmg = 1;
+    int Clown2HP = 6;
+    int Clown2Dmg = 1;
+    int Clown3HP = 6;
+    int Clown3Dmg = 1;
+    int gov = 0;
+    int gov1 = 0;
+    int gov2 = 0;
+    int gov3 = 0;
+    int QuestGiverCongratsWords = 0;
+    while(true){ 
+        system("clear"); 
+        clearField(); 
+        saveCharacters();
+        if(ClownHP>0){
+        field[yClown][xClown] = "🤡";
+        }
+        if(Clown1HP>0){
+        field[yClown1][xClown1] = "🤡";
+        }
+        if(Clown2HP>0){
+        field[yClown2][xClown2] = "🤡";
+        }
+        if(Clown3HP>0){
+        field[yClown3][xClown3] = "🤡";
+        }
+        drawField();
+        
+        int Shoptemp = 0;
+        int prostoperemennaya=0;
+        int prostoperemennaya2=0;
+        cout << endl << endl << "  Hero stats:"<< endl << "HP: ";
+        string HeroHP[Des];
+        for(int HHP = 0; HHP<Des; HHP++){ 
+            HeroHP[HHP]="❤️";
+        }
+        for(int HHP = 0; HHP<Des; HHP++){
+            if(xHero==width-1 || yHero==height-1 || xHero==0 || yHero == 0) { 
+                HeroHP[HHP]=" ";
+                prostoperemennaya++;
+            }
+            cout << " " << HeroHP[HHP];
+        }
+        cout<< endl << "DMG:" << " " << HeroDmg << "⚔️";
+        cout<< endl << "Money:" << " " << HeroMoney << "💰" << endl;
+        if(RosthelmQuest1 > 0){
+            cout << "Your quest: Kill three inferior Devil's Servants" << " " << HowMuchClowns << "/4🤡"<<endl;
+        }
+        if(RosthelmQuest2 > 0){
+            cout << "Your quest: Kill Devil Sergeant" << " " << HowMuchMasks << "/1👺"<<endl;
+        }
+        
+        cout << endl << "  Devil Sergeant stats:"<< endl << "HP: ";
+        
+        string VillainHP[Ves];
+        for(int VHP = 0; VHP<Ves; VHP++){ 
+            VillainHP[VHP]="💜";
+        }
+        for(int VHP = 0; VHP<Ves; VHP++){ 
+            cout << " " << VillainHP[VHP];
+        }
+        cout<< endl << "DMG:" << " " << VillainDmg << "⚔️" << endl;
+        if(prostoperemennaya>0){
+            cout<< endl << endl << "GAME OVER"<<endl<<"Your hero fell to his death...";
+            break;
+        }
+        if(phrase > 0){
+        cout<< endl <<"   Devil Sergeant:" << endl <<  "You're all just trash of our world" << endl;
+        phrase = 0;
+        }
+        if(Des<=0){
+            prostoperemennaya2++;
+        }
+        if(prostoperemennaya2>0){
+            cout<<endl<<"GAME OVER"<<endl<<"No more lifes..."; 
+            break;
+        }
+        if(ShopPhrase > 0){
+            cout<<endl<<"Nice Choice, you became stronger!"<<endl;
+            ShopPhrase=0;
+        }
+        if(tempNotEnoughMoney > 0){
+            cout<<endl<<"You dont have enough money..."<<endl;
+            tempNotEnoughMoney=0;
+        }
+        if(StartNpcWords > 0){
+            cout << "   Unknown resident of Rosthelm:" << endl <<"Hey newbie! This place is not what it seems..." << endl << "You better be сautious... By the way do you see that" << endl<< "shop over there? You can get a free wooden sword! " << endl  << "Somewhere in the neighboring lands of Terabithia, the" << endl  << "devil incarnate is roaming here... just be careful." << endl;
+            StartNpcWords = 0;
+        }
+        if(RosthelmQuestPhrase > 0){
+            cout << "   Rosthelm questgiver:" << endl << "Quest taken, come back when you complete it" << endl;
+            RosthelmQuestPhrase = 0;
+        }
+        if(QuestGiverCongratsWords > 0){
+            cout << "   Rosthelm questgiver:" << endl << "Congrats! There is your 15💰" << endl;
+            QuestGiverCongratsWords = 0;
+        }
+        cin>>direction; 
+        if(direction == 'd'){ 
+            xHero++; 
+        } 
+        if(direction == 'a'){ 
+            xHero--; 
+        } 
+        if(direction == 'w'){ 
+            yHero--; 
+        } 
+        if(direction == 's'){ 
+            yHero++; 
+        }
+        if(direction == 'e' && abs(yHero - yVillain)==1 && abs(xHero - xVillain)==1 || direction == 'e' && abs(yHero - yVillain)==0 && abs(xHero - xVillain)==1 || direction == 'e' && abs(yHero - yVillain)==1 && abs(xHero - xVillain)==0) {
+            Ves = Ves - HeroDmg;
+            Des = Des - VillainDmg;
+            if(ClownHP<=0){
+                HowMuchMasks++;
+            }
+            if(Des<=0){
+                prostoperemennaya2++;
+            }
+        }
+        if(direction == 'q' && abs(yHero - yVillain)==1 && abs(xHero - xVillain)==1 || direction == 'q' && abs(yHero - yVillain)==0 && abs(xHero - xVillain)==1 || direction == 'q' && abs(yHero - yVillain)==1 && abs(xHero - xVillain)==0) {
+            Des = Des - VillainDmg;
+            phrase++;
+        }
+        if(direction == 'q' && abs(yHero - yHospital)==1 && abs(xHero - xHospital)==1 || direction == 'q' && abs(yHero - yHospital)==0 && abs(xHero - xHospital)==1 || direction == 'q' && abs(yHero - yHospital)==1 && abs(xHero - xHospital)==0) {
+            tempHospital++;
+        }
+        if(tempHospital > 0){
+            cout<<"  Do you want to heal?" << endl << "1)Heal full HP                 1💰"<< endl << "0)Leave hospital" << endl;
+            int HospitalAnswer;
+            cin >> HospitalAnswer;
+            switch(HospitalAnswer){
+                case 1:
+                if(HeroMoney - 1 < 0){
+                    tempNotEnoughMoney++;
+                    }
+                HeroMoney = HeroMoney - 1;
+                Des = 10;
+                tempHospital=0;
+                break;
+                case 0:
+                tempHospital=0;
+                break;
+            }
+        }
+        if(direction == 'q' && abs(yHero - yShop)==1 && abs(xHero - xShop)==1 || direction == 'q' && abs(yHero - yShop)==0 && abs(xHero - xShop)==1 || direction == 'q' && abs(yHero - yShop)==1 && abs(xHero - xShop)==0) {
+            Shoptemp++;
+        }
+        if(Shoptemp>0){
+            cout << "   Range:"<<endl;
+            cout<<"1)Wooden sword(+1 DMG)           0💰"<<endl<<"2)Copper Sword(+3 DMG)          10💰"<< endl <<"0)Leave shop" << endl;
+            int answer;
+            cin>>answer;
+            switch(answer){
+                case 1:
+                HeroDmg=HeroDmg+1;
+                ShopPhrase++;
+                break;
+                case 2:
+                if(HeroMoney - 10 < 0){
+                    tempNotEnoughMoney++;
+                    }
+                else{
+                    HeroMoney = HeroMoney - 12;
+                    HeroDmg=HeroDmg+3;
+                    ShopPhrase++;
+                }
+                break;
+                case 0:
+                break;
+            }
+        }
+        if(direction == 'q' && abs(yHero - yStartNpc)==1 && abs(xHero - xStartNpc)==1 || direction == 'q' && abs(yHero - yStartNpc)==0 && abs(xHero - xStartNpc)==1 || direction == 'q' && abs(yHero - yStartNpc)==1 && abs(xHero - xStartNpc)==0) {
+            StartNpcWords++;
+        }
+        if(direction == 'q' && abs(yHero - yQuestGiver)==1 && abs(xHero - xQuestGiver)==1 || direction == 'q' && abs(yHero - yQuestGiver)==0 && abs(xHero - xQuestGiver)==1 || direction == 'q' && abs(yHero - yQuestGiver)==1 && abs(xHero - xQuestGiver)==0) {
+            QuestGiverWords++;
+        }
+        if(QuestGiverWords > 0){
+            if(RosthelmQuest1 == 0 && RosthelmQuest2 == 0){
+               cout << "   Questgiver:" << endl << "Which quest do you need?" << endl << "1)Kill four inferior Devil's Servants 🤡" << endl << "Reward: 15💰" << endl << endl <<"2)Kill Devil Sergeant 👺" << endl << "Reward: going to lands of Reklisia (next lvl), 10💰" << endl << endl << "0)Walk away" << endl;            
+               int QuestgiverAnswer;
+               cin >> QuestgiverAnswer;
+               switch(QuestgiverAnswer){
+                   case 1:
+                   RosthelmQuestPhrase++;
+                   RosthelmQuest1++;
+                   QuestGiverWords=0;
+                   break;
+                   case 2:
+                   RosthelmQuestPhrase++;
+                   RosthelmQuest2++;
+                   QuestGiverWords=0;
+                   break;
+                   case 0:
+                   QuestGiverWords=0;
+                   break;
+                }
+            }
+            else if(RosthelmQuest1>0 && HowMuchClowns == 4){
+                QuestGiverCongratsWords++;
+                HeroMoney = HeroMoney + 15;
+                RosthelmQuest1=-1;
+            }
+            else if(RosthelmQuest1>0 && HowMuchClowns < 4){
+                RosthelmQuestPhrase++;
+            }
+            else if(RosthelmQuest2>0 && HowMuchMasks == 1){
+                QuestGiverCongratsWords++;
+                RosthelmQuest2=-1;
+            }
+        }
+        if(direction == 'e' && abs(yHero - yClown)==1 && abs(xHero - xClown)==1 || direction == 'e' && abs(yHero - yClown)==0 && abs(xHero - xClown)==1 || direction == 'e' && abs(yHero - yClown)==1 && abs(xHero - xClown)==0) {
+            ClownHP = ClownHP - HeroDmg;
+            Des = Des - ClownDmg;
+        }
+        if(ClownHP<=0 && gov == 0){
+                HowMuchClowns++;
+                gov = 1;
+            }
+        if(direction == 'e' && abs(yHero - yClown1)==1 && abs(xHero - xClown1)==1 || direction == 'e' && abs(yHero - yClown1)==0 && abs(xHero - xClown1)==1 || direction == 'e' && abs(yHero - yClown1)==1 && abs(xHero - xClown1)==0) {
+            Clown1HP = Clown1HP - HeroDmg;
+            Des = Des - Clown1Dmg;
+        }
+        if(Clown1HP<=0 && gov1 == 0){
+                HowMuchClowns++;
+                gov1 = 1;
+        }
+        if(direction == 'e' && abs(yHero - yClown2)==1 && abs(xHero - xClown2)==1 || direction == 'e' && abs(yHero - yClown2)==0 && abs(xHero - xClown2)==1 || direction == 'e' && abs(yHero - yClown2)==1 && abs(xHero - xClown2)==0) {
+            Clown2HP = Clown2HP - HeroDmg;
+            Des = Des - Clown2Dmg;
+        }
+        if(Clown2HP<=0 && gov2 == 0){
+                HowMuchClowns++;
+                gov2 = 1;
+        }
+        if(direction == 'e' && abs(yHero - yClown3)==1 && abs(xHero - xClown3)==1 || direction == 'e' && abs(yHero - yClown3)==0 && abs(xHero - xClown3)==1 || direction == 'e' && abs(yHero - yClown3)==1 && abs(xHero - xClown3)==0) {
+            Clown3HP = Clown3HP - HeroDmg;
+            Des = Des - Clown3Dmg;
+        }
+        if(Clown3HP<=0 && gov3 == 0){
+                HowMuchClowns++;
+                gov3 = 1;
+        }
+    }
+     
+    return 0; 
+}
